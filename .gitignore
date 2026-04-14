@@ -1,7 +1,8 @@
 # Data — не коммитим сырые/промежуточные/финальные датасеты
-data/
-!data/.gitkeep
-!data/README.md
+/data/
+!/data/.gitkeep
+!/data/README.md
+/data/processed/
 
 # Python
 __pycache__/
@@ -15,12 +16,15 @@ env/
 # Jupyter
 *.ipynb_checkpoints
 
-# Модели и артефакты
-models/
+# Модели и артефакты обучения (top-level only — не трогаем src/models/)
+/models/
+/artifacts/
+/checkpoints/
 *.pkl
 *.joblib
 *.h5
 *.onnx
+*.ckpt
 
 # Логи и временные файлы
 logs/

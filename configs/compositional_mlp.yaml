@@ -1,0 +1,14 @@
+# CompositionalMLP baseline — scenario-features-only two-head regressor.
+model_type: compositional_mlp
+lr: 5.0e-4
+weight_decay: 1.0e-3
+epochs: 80
+batch_size: 32
+huber_delta: 1.0
+sign_weight: 0.2
+dropout: 0.2
+component_dropout: 0.0  # not used — this model ignores the component path
+
+# architecture
+mlp_hidden: 128
+mode_emb_dim: 8
