@@ -1,0 +1,40 @@
+# Data — не коммитим сырые/промежуточные/финальные датасеты
+data/
+!data/.gitkeep
+!data/README.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Jupyter
+*.ipynb_checkpoints
+
+# Модели и артефакты
+models/
+*.pkl
+*.joblib
+*.h5
+*.onnx
+
+# Логи и временные файлы
+logs/
+*.log
+.cache/
+tmp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Секреты
+.env
+.env.*
+!.env.example
