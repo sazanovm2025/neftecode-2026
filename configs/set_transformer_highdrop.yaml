@@ -1,0 +1,24 @@
+# Set-Transformer (highdrop) — ensemble diversification variant.
+# Same architecture class and size as base, but with much stronger
+# regularization — both inside the network and via component dropout in
+# the data loader. Kept distinct via model_type so aggregate_cv.py can
+# separate its runs.
+model_type: set_transformer_highdrop
+lr: 5.0e-4
+weight_decay: 1.0e-3
+epochs: 80
+batch_size: 32
+huber_delta: 1.0
+sign_weight: 0.2
+dropout: 0.4                # was 0.2
+component_dropout: 0.25     # was 0.1
+
+# architecture — identical to base
+dim_model: 64
+num_heads: 4
+ff_dim: 128
+num_encoder_blocks: 2
+fusion_hidden: 128
+comp_emb_dim: 16
+type_emb_dim: 8
+mode_emb_dim: 8

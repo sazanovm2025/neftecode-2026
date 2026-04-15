@@ -67,6 +67,12 @@ class DaimlerLightningModule(pl.LightningModule):
         self.save_hyperparameters(ignore=["target_transformer", "raw_target_stats"])
 
         self.model_type = model_type
+        # The dispatch accepts two families:
+        # - "compositional_mlp"           → CompositionalMLP
+        # - "set_transformer{,_*}"        → SetTransformerModel with config-driven hparams
+        # Variants ``set_transformer_wide`` / ``_deep`` / ``_highdrop`` are the same
+        # class with different hyperparameters — ``model_type`` is kept distinct so
+        # ``aggregate_cv.py`` can tell them apart in the summary CSV.
         if model_type == "compositional_mlp":
             self.model = CompositionalMLP(
                 n_modes=n_modes,
@@ -75,7 +81,7 @@ class DaimlerLightningModule(pl.LightningModule):
                 hidden=mlp_hidden,
                 dropout=dropout,
             )
-        elif model_type == "set_transformer":
+        elif model_type == "set_transformer" or model_type.startswith("set_transformer_"):
             self.model = SetTransformerModel(
                 n_components=n_components,
                 n_types=n_types,
@@ -113,6 +119,7 @@ class DaimlerLightningModule(pl.LightningModule):
     def _forward_batch(self, batch: dict[str, Any]) -> dict[str, torch.Tensor]:
         if self.model_type == "compositional_mlp":
             return self.model(batch["scenario_features"])
+        # any set_transformer variant consumes the full component path
         return self.model(
             batch["component_features"],
             batch["component_mask"],

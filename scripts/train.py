@@ -138,6 +138,8 @@ def main() -> None:
     component_dropout_p = float(cfg.get("component_dropout", 0.0))
     if model_type == "compositional_mlp":
         component_dropout_p = 0.0  # no effect anyway, keep it clean
+    # any set_transformer variant (base, _wide, _deep, _highdrop, …) keeps
+    # its configured component_dropout value.
 
     tr_ds = DaimlerDataset(
         tr_recs, normalizer=normalizer, target_transformer=target_transformer,
@@ -175,7 +177,11 @@ def main() -> None:
         dim_model=int(cfg.get("dim_model", 64)),
         num_heads=int(cfg.get("num_heads", 4)),
         ff_dim=int(cfg.get("ff_dim", 128)),
-        num_encoder_blocks=int(cfg.get("num_encoder_blocks", 2)),
+        # Accept both historical name ``num_encoder_blocks`` (base config)
+        # and the newer ``num_sab_blocks`` alias used in diversification configs.
+        num_encoder_blocks=int(
+            cfg.get("num_sab_blocks", cfg.get("num_encoder_blocks", 2))
+        ),
         fusion_hidden=int(cfg.get("fusion_hidden", 128)),
         comp_emb_dim=int(cfg.get("comp_emb_dim", 16)),
         type_emb_dim=int(cfg.get("type_emb_dim", 8)),

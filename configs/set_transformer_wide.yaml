@@ -1,0 +1,23 @@
+# Set-Transformer (wide) — ensemble diversification variant.
+# Same architecture class as base set_transformer, but wider attention:
+# larger dim_model, more heads, larger FFN. Kept distinct via model_type
+# so aggregate_cv.py can separate its runs in cv_summary.csv.
+model_type: set_transformer_wide
+lr: 5.0e-4
+weight_decay: 1.0e-3
+epochs: 80
+batch_size: 32
+huber_delta: 1.0
+sign_weight: 0.2
+dropout: 0.2
+component_dropout: 0.1
+
+# architecture — wider than base
+dim_model: 96       # was 64
+num_heads: 6        # was 4
+ff_dim: 192         # was 128
+num_encoder_blocks: 2
+fusion_hidden: 128
+comp_emb_dim: 16
+type_emb_dim: 8
+mode_emb_dim: 8
